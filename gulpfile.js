@@ -7,8 +7,9 @@ var gulp = require('gulp'),
   path = require('path'),
   browserSync = require('browser-sync').create(),
   ts = require('gulp-typescript'),
-  argv = require('minimist')(process.argv.slice(2));
-  var tsProject = ts.createProject("tsconfig.json");
+  argv = require('minimist')(process.argv.slice(2)),
+  tsProject = ts.createProject("tsconfig.json"),
+  Builder = require('systemjs-builder');
 
 /******************************************************
  * COPY TASKS - stream assets from source to destination
@@ -21,14 +22,22 @@ gulp.task('pl-typescript', function(){
     .pipe(gulp.dest('.'))
 })
 
+gulp.task('pl-systemjs', function(){
+    var builder = new Builder;
+    builder.loadConfig('system.config.js');
+    return builder.buildStatic('source/js/application.js', 'source/js/application.sfx.js', {
+        globalName: 'plAng'
+    })
+})
+
 // JS copy
 gulp.task('pl-copy:js', function(){
   return gulp.src('**/*.js', {cwd: path.resolve(paths().source.js)} )
     .pipe(gulp.dest(path.resolve(paths().public.js)));
 });
 
-gulp.task('pl:js', function(){
-gulp.series('pl-typescript', 'pl-copy:js')
+gulp.task('pl:transpile', function(){
+    gulp.series('pl-typescript', 'pl-systemjs')
 })
 
 // Images copy
@@ -95,6 +104,7 @@ function build(done) {
 
 gulp.task('pl-assets', gulp.series(
     'pl-typescript',
+    'pl-systemjs',
   gulp.parallel(
     'pl-copy:js',
     'pl-copy:img',
@@ -157,6 +167,7 @@ function reload() {
 
 function watch() {
   gulp.watch(path.resolve(paths().source.css, '**/*.css')).on('change', gulp.series('pl-copy:css', reload));
+  gulp.watch(path.resolve(paths().source.js, '**/*.ts')).on('change', gulp.series('pl-typescript', 'pl-systemjs',  'pl-copy:js', reload));
   gulp.watch(path.resolve(paths().source.styleguide, '**/*.*')).on('change', gulp.series('pl-copy:styleguide', 'pl-copy:styleguide-css', reload));
 
   var patternWatches = [

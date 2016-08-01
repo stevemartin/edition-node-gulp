@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {Mars} from './mars';
+import { bootstrap } from '@angular/platform-browser-dynamic';
 
 @Component({
-    selector: 'g[mars]'
+  selector: 'my-app',
+  template: `<div>
+  <svg height="100" width="100">
+	<g mars/>
+  </svg>
+`,
+  directives: [Mars]
 })
 
-export class Mars {
-  x:number;
-  y:number;
-  z:number;
-  constructor(x:number, y:number, z:number){
-    this.x = x;
-    this.y = y;
-    this.z = z;
-  }
+export class MyApp {
+  stroke: '#000000'
+  mars:Mars;
 }
+
+bootstrap(MyApp)
