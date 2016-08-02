@@ -4,6 +4,8 @@
  * The gulp wrapper around patternlab-node core, providing tasks to interact with the core library and move supporting frontend assets.
 ******************************************************/
 var gulp = require('gulp'),
+  del = require('del'),
+  vinylPaths = require('vinyl-paths'),
   path = require('path'),
   browserSync = require('browser-sync').create(),
   ts = require('gulp-typescript'),
@@ -17,10 +19,20 @@ var gulp = require('gulp'),
 
 // Transpile typescript
 gulp.task('pl-typescript', function(){
-    return tsProject.src('**/*.ts', path.resolve(paths().source.js))
+  return tsProject.src('**/*.ts', path.resolve(paths().source.ts))
     .pipe(ts(tsProject))
-    .pipe(gulp.dest('.'))
+    .js.pipe(gulp.dest('.'))
 })
+
+gulp.task('pl-move-unlinked-js', function() {
+  return gulp.src('source/ts/**/*.js')
+    .pipe(gulp.dest(path.resolve(paths().source.js)));
+})
+
+gulp.task('pl-clean-ts', function() {
+    return del('source/ts/**/*.js');
+})
+
 
 gulp.task('pl-systemjs', function(){
     var builder = new Builder;
@@ -110,6 +122,8 @@ function build(done) {
 
 gulp.task('pl-assets', gulp.series(
     'pl-typescript',
+    'pl-clean-ts',
+    'pl-move-unlinked-js',
     'pl-systemjs',
   gulp.parallel(
     'pl-copy:js',
@@ -173,7 +187,7 @@ function reload() {
 
 function watch() {
   gulp.watch(path.resolve(paths().source.css, '**/*.css')).on('change', gulp.series('pl-copy:css', reload));
-  gulp.watch(path.resolve(paths().source.js, '**/*.ts')).on('change', gulp.series('pl-typescript', 'pl-systemjs',  'pl-copy:js', reload));
+  gulp.watch(path.resolve(paths().source.ts, '**/*.ts')).on('change', gulp.series('pl-typescript', 'pl-move-unlinked-js', 'pl-clean-ts', 'pl-systemjs',  'pl-copy:js', reload));
   gulp.watch(path.resolve(paths().source.styleguide, '**/*.*')).on('change', gulp.series('pl-copy:styleguide', 'pl-copy:styleguide-css', reload));
 
   var patternWatches = [

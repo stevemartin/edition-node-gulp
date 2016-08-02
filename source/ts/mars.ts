@@ -6,9 +6,9 @@ import {Component} from '@angular/core';
 })
 
 export class Mars {
-  cx:number = 50;
-  cy:number = 50;
-  r:number = 30;
+  cx:number = 30;
+  cy:number = 30;
+  r:number = 29;
   opacity:number = 1.0;
   stroke:string = 'black';
   fill:string = 'darkred';

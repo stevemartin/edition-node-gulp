@@ -11,9 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var Mars = (function () {
     function Mars() {
-        this.cx = 50;
-        this.cy = 50;
-        this.r = 30;
+        this.cx = 30;
+        this.cy = 30;
+        this.r = 29;
         this.opacity = 1.0;
         this.stroke = 'black';
         this.fill = 'darkred';

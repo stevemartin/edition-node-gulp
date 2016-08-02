@@ -1,9 +1,9 @@
 {
   "files": ["typings/globals/core-js/index.d.ts",
-			"source/js/rocket-app.ts",
-			"source/js/rocket.ts",
-			"source/js/mars-app.ts",
-			"source/js/mars.ts"],
+			"source/ts/rocket-app.ts",
+			"source/ts/rocket.ts",
+			"source/ts/mars-app.ts",
+			"source/ts/mars.ts"],
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
@@ -13,6 +13,5 @@
     "experimentalDecorators": true,
     "removeComments": false,
     "noImplicitAny": false
-  },
-  "outFile" : "application.js"
+  }
 }
