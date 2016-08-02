@@ -1,5 +1,9 @@
 {
-  "files": ["typings/globals/core-js/index.d.ts", "source/js/application.ts", "source/js/mars.ts"],
+  "files": ["typings/globals/core-js/index.d.ts",
+			"source/js/rocket-app.ts",
+			"source/js/rocket.ts",
+			"source/js/mars-app.ts",
+			"source/js/mars.ts"],
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",

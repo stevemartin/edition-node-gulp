@@ -25,8 +25,14 @@ gulp.task('pl-typescript', function(){
 gulp.task('pl-systemjs', function(){
     var builder = new Builder;
     builder.loadConfig('system.config.js');
+    builder.buildStatic('source/js/rocket-app.js', 'source/js/rocket-app.sfx.js', {
+        globalName: 'plRocket'
+    })
+    builder.buildStatic('source/js/mars-app.js', 'source/js/mars-app.sfx.js', {
+        globalName: 'plMars'
+    })
     return builder.buildStatic('source/js/application.js', 'source/js/application.sfx.js', {
-        globalName: 'plAng'
+        globalName: 'plApp'
     })
 })
 

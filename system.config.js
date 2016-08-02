@@ -5,9 +5,8 @@
 (function(global) {
   // map tells the System loader where to look for things
   var map = {
-    'app':                        'app', // 'dist',
+    'app':                        'source/js', // 'dist',
     '@angular':                   'node_modules/@angular',
-    'mars':                       'source/js',
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
     'shim':                       'node_modules/core-js/client',
     'Reflect':                    'node_modules/reflect-metadata',
@@ -18,7 +17,6 @@
   var packages = {
     'app':                        { main: 'source/js/application.js',  defaultExtension: 'js' },
     'rxjs':                       { defaultExtension: 'js' },
-    'mars':                       { main: 'mars.js', defaultExtension: 'js' },
     'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
   };
   var ngPackageNames = [
